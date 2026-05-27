@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebbProjekt1</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .card {
+            max-width: 720px;
+            margin: 4rem auto;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #2563eb;
+        }
+
+        .meta {
+            margin-top: 1rem;
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1 th:text="${message}">Welcome to WebbProjekt1!</h1>
+    <p>This Spring Boot app uses Thymeleaf to render the home page.</p>
+    <p class="meta">
+        Server time:
+        <span th:text="${currentTime}">2026-05-11T12:00:00</span>
+    </p>
+</div>
+</body>
+</html>
+
