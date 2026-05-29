@@ -15,3 +15,34 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.log
+hs_err_pid*
+replay_pid*
+
+# IDE / build outputs
+out/
+bin/
+build/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.settings/
+.project
+.classpath
+
+# Environment and Sensitive Data
+.env
+.env.local
+.env.*.local
+application-keys.properties
+src/main/resources/application-keys.properties
+
