@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebbProjekt1</title>
 
-    <!-- CSS -->
+    <!-- Leaflet CSS (för kartan) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- Din egen CSS -->
     <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 
@@ -27,9 +30,19 @@
             2026-05-11T12:00:00
         </span>
     </p>
+
+    <!-- Nytt: Karta -->
+    <hr />
+    <h2>Karta</h2>
+    <input type="text" id="stad" placeholder="Ange stad" />
+    <button onclick="hamtaEvenemang()">Sök</button>
+    <div id="karta" style="height: 400px;"></div>
 </div>
 
-<!-- JavaScript -->
+<!-- Leaflet JavaScript (för kartan) -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Din egen JavaScript -->
 <script th:src="@{/script.js}"></script>
 
 </body>

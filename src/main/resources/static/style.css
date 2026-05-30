@@ -25,3 +25,15 @@ h1 {
     color: #6b7280;
     font-size: 0.95rem;
 }
+
+/* Nytt: kartans utseende */
+#karta {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+input, button {
+    padding: 5px;
+    margin: 5px;
+}
