@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebbProjekt1</title>
 
-    <!-- Leaflet CSS (för kartan) -->
+    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <!-- Din egen CSS -->
@@ -16,30 +16,40 @@
 <body>
 
 <div class="card">
-    <h1 th:text="${message}">
-        Welcome to WebbProjekt1!
-    </h1>
+    <h1 th:text="${message}">Welcome to WebbProjekt1!</h1>
 
-    <p>
-        This Spring Boot app uses Thymeleaf to render the home page.
-    </p>
+    <p id="title"> EVENT FINDER </p>
+
+    <p>This Spring Boot app uses Thymeleaf to render the home page.</p>
 
     <p class="meta">
         Server time:
-        <span th:text="${currentTime}">
-            2026-05-11T12:00:00
-        </span>
+        <span th:text="${currentTime}">2026-05-11T12:00:00</span>
     </p>
 
-    <!-- Nytt: Karta -->
     <hr />
+
     <h2>Karta</h2>
-    <input type="text" id="stad" placeholder="Ange stad" />
-    <button onclick="hamtaEvenemang()">Sök</button>
-    <div id="karta" style="height: 400px;"></div>
+
+    <!-- Sökfält -->
+    <div class="search-container">
+        <input type="text" id="stad" placeholder="Ange stad" />
+        <button id="sokKnapp">Sök</button>
+    </div>
+
+    <!-- Kartcontainer -->
+    <div id="karta"></div>
+
+    <hr />
+
+    <!-- Lista med evenemang -->
+    <div id="eventLista">
+        <h3>Evenemang</h3>
+        <ul id="eventListItems"></ul>
+    </div>
 </div>
 
-<!-- Leaflet JavaScript (för kartan) -->
+<!-- Leaflet JavaScript -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <!-- Din egen JavaScript -->
