@@ -94,7 +94,7 @@ function visaMarkorer(evenemang) {
             .bindPopup(popupHtml)
             .addTo(karta);
 
-        // Klick på markör: markera i listan men SCROLLA INTE
+        // Klick på markör: markera i listan men sidan SCROLLA INTE
         marker.on('click', function() {
             markeraListElement(index, false); // scroll = false
         });
@@ -144,7 +144,7 @@ function visaMarkorer(evenemang) {
     }
 }
 
-// Uppdaterad: tar emot en parameter "scroll" som avgör om vi ska scrolla till elementet
+// Tar emot en parameter "scroll" som avgör om vi ska scrolla till elementet
 function markeraListElement(index, scroll = false) {
     const items = document.querySelectorAll('#eventListItems li');
     items.forEach((li, i) => {
