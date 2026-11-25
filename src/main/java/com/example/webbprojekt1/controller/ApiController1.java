@@ -8,6 +8,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Map;
+import java.util.HashMap;
+import com.example.webbprojekt1.service.CityInfoService;
 
 import java.util.List;
 
@@ -18,6 +21,8 @@ public class ApiController1 {
 
     @Autowired
     private TicketmasterService ticketmasterService;
+    @Autowired
+    private CityInfoService cityInfoService;
 
     @GetMapping("/search")
     @Operation(summary = "Search events by keyword")
@@ -65,6 +70,27 @@ public class ApiController1 {
         
         return ResponseEntity.ok(event);
     }
+    @GetMapping("/mashup")
+    @Operation(summary = "Get events with city information from Wikipedia")
+    public ResponseEntity<Map<String, Object>> getEventsWithCityInfo(
+            @RequestParam String city,
+            @RequestParam(defaultValue = "10") int size) {
+
+        // 1. Hämta events från Ticketmaster
+        List<Event> events = ticketmasterService.searchEventsByCity(city, Math.min(size, 50));
+
+        // 2. Hämta stadinfo från Wikipedia
+        Map<String, String> cityInfo = cityInfoService.getCityInfo(city);
+
+        // 3. Kombinera i ett svar
+        Map<String, Object> response = new HashMap<>();
+        response.put("city", city);
+        response.put("cityInfo", cityInfo);
+        response.put("events", events);
+
+        return ResponseEntity.ok(response);
+    }
+
 }
 
 

@@ -9,7 +9,7 @@ function visaKarta() {
     }).addTo(karta);
 }
 
-function hamtaEvenemang() {
+/*function hamtaEvenemang() {
     const stad = document.getElementById('stad').value.trim();
     if (!stad) {
         alert('Ange en stad!');
@@ -47,6 +47,53 @@ function hamtaEvenemang() {
             // Sortera efter datum (närmast/tidigaste först)
             evenemang.sort((a, b) => new Date(a.datum) - new Date(b.datum));
 
+            visaMarkorer(evenemang);
+        })
+        .catch(error => {
+            console.error('Fel:', error);
+            alert('Kunde inte hämta evenemang. Se konsolen (F12).');
+        })
+        .finally(() => {
+            btn.textContent = 'Sök';
+            btn.disabled = false;
+        });
+}
+*/
+function hamtaEvenemang() {
+    const stad = document.getElementById('stad').value.trim();
+    if (!stad) {
+        alert('Ange en stad!');
+        return;
+    }
+
+    const btn = document.getElementById('sokKnapp');
+    btn.textContent = 'Söker...';
+    btn.disabled = true;
+
+    // Anropa vår nya mashup-endpoint istället för den gamla sökvägen
+    const url = `/api/v1/events/mashup?city=${encodeURIComponent(stad)}&size=30`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) throw new Error('HTTP-fel: ' + response.status);
+            return response.json();
+        })
+        .then(data => {
+            // 1. Visa stadsfakta från Wikipedia överst
+            visaStadInfo(data.city, data.cityInfo);
+
+            // 2. Mappa evenemangen och rita ut dem på kartan (data.events innehåller listan)
+            const evenemang = data.events.map(e => ({
+                id: e.eventId,
+                namn: e.name || 'Namnlöst',
+                lat: e.latitude,
+                lon: e.longitude,
+                datum: e.eventDate || '2099-12-31',
+                stad: e.eventCity || data.city,
+                land: e.eventcountry
+            }));
+
+            evenemang.sort((a, b) => new Date(a.datum) - new Date(b.datum));
             visaMarkorer(evenemang);
         })
         .catch(error => {
@@ -168,6 +215,39 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+function visaStadInfo(stad, info) {
+    const container = document.getElementById('stadInfo');
+    if (!container) return;
+
+    if (info.error) {
+        container.innerHTML = `<p>ℹ Ingen information tillgänglig för ${stad}</p>`;
+        container.style.display = 'block';
+        return;
+    }
+
+    let html = `<h3>📌 ${stad}</h3>`;
+
+    if (info.shortDescription) {
+        html += `<p><em>${info.shortDescription}</em></p>`;
+    }
+
+    if (info.description) {
+        let desc = info.description;
+        if (desc.length > 300) {
+            desc = desc.substring(0, 300) + '...';
+        }
+        html += `<p>${desc}</p>`;
+    }
+
+    if (info.image) {
+        html += `<img src="${info.image}" alt="${stad}" style="max-width: 100%; max-height: 150px; border-radius: 8px; margin-top: 10px;">`;
+    }
+
+    html += `<p style="font-size: 0.8rem; color: #999;">Källa: ${info.source}</p>`;
+    container.innerHTML = html;
+    container.style.display = 'block';
+}
 
 window.onload = function() {
     visaKarta();
